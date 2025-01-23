@@ -13,7 +13,10 @@ class LazyFixtureCallableWrapper(LazyFixtureWrapper):
     def __init__(self, func_or_name: Union[Callable, str], *args, **kwargs):
         if callable(func_or_name):
             self._func = func_or_name
-            self.name = func_or_name.__name__
+            try:
+                self.name = func_or_name.__name__
+            except AttributeError:
+                self.name = func_or_name.__class__.__name__
         else:
             self.name = func_or_name
             self._func = None
